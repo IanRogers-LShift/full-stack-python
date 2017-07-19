@@ -1,0 +1,5 @@
+.idea
+*.iml
+.mypy_cache/
+venv/
+__javascript__/

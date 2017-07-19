@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+cd $(realpath $(dirname "$0")/..)
+
+command_exists () {
+    type "$1" &> /dev/null ;
+}
+
+
+if [ ! -d venv ] ; then
+
+    if command_exists python3.6 ; then
+        PYTHON=python3.6
+    elif command_exists python3 ; then
+        PYTHON=python3
+    else
+        echo "can't find python3 (NB. we need 3.6)"
+        exit 1
+    fi
+    ver=$($PYTHON --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
+    if [ "$ver" -lt "36" ]; then
+        echo "Requires python 3.6 or greater"
+        exit 1
+    fi
+
+    virtualenv --python=$PYTHON venv
+fi
+
+venv/bin/pip install -U pip
+venv/bin/pip install -U -r dev-requirements.txt

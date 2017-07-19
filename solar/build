@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+transcrypt -b -m hello.py
